@@ -2316,6 +2316,9 @@
     <group>
         <name>APP</name>
         <file>
+            <name>$PROJ_DIR$\APP\fc\fc_init.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\APP\main.c</name>
         </file>
         <file>

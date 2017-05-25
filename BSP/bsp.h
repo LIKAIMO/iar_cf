@@ -18,7 +18,7 @@
 
 /* 宏定义 --------------------------------------------------------------------*/
 #define PORT_LED                  GPIOB                     //端口
-#define PIN_LED                   GPIO_Pin_3               //引脚
+#define PIN_LED                   GPIO_Pin_3 | GPIO_Pin_4            //引脚
 
 /* LED亮、灭、变化 */
 #define LED_ON                    GPIO_SetBits(PORT_LED, PIN_LED)
