@@ -1,61 +1,72 @@
 /**
   ********************************  STM32F3xx  *********************************
-  * @ÎÄ¼þÃû     £º main.c
-  * @×÷Õß       £º redScarf
-  * @¿â°æ±¾     £º V1.2.3
-  * @ÎÄ¼þ°æ±¾   £º V1.0.0
-  * @ÈÕÆÚ       £º 2017Äê5ÔÂ25ÈÕ
-  * @ÕªÒª       £º Ö÷º¯Êý
+  * @æ–‡ä»¶å     ï¼š main.c
+  * @ä½œè€…       ï¼š redScarf
+  * @åº“ç‰ˆæœ¬     ï¼š V1.2.3
+  * @æ–‡ä»¶ç‰ˆæœ¬   ï¼š V1.0.0
+  * @æ—¥æœŸ       ï¼š 2017å¹´5æœˆ25æ—¥
+  * @æ‘˜è¦       ï¼š ä¸»å‡½æ•°
   ******************************************************************************/
 /*----------------------------------------------------------------------------
-  ¸üÐÂÈÕÖ¾:
-  2017-5-25 V1.0.0:³õÊ¼°æ±¾
+  æ›´æ–°æ—¥å¿—:
+  2017-5-25 V1.0.0:åˆå§‹ç‰ˆæœ¬
   ----------------------------------------------------------------------------*/
-/* °üº¬µÄÍ·ÎÄ¼þ --------------------------------------------------------------*/
-#include "bsp.h"
+/* åŒ…å«çš„å¤´æ–‡ä»¶ --------------------------------------------------------------*/
 #include "fc_init.h"
 
 
-/************************************************
-º¯ÊýÃû³Æ £º SoftwareDelay
-¹¦    ÄÜ £º Èí¼þÑÓÊ±
-²Î    Êý £º Cnt --- ÑÓÊ±¼ÆÊý
-·µ »Ø Öµ £º ÎÞ
-×÷    Õß £º strongerHuang
-*************************************************/
-void SoftwareDelay(uint32_t Cnt)
+/* å®å®šä¹‰ --------------------------------------------------------------------*/
+#define PORT_LED                  GPIOB                     //ç«¯å£
+#define PIN_LED                   GPIO_Pin_3 | GPIO_Pin_4            //å¼•è„š
+
+/* LEDäº®ã€ç­ã€å˜åŒ– */
+#define LED_ON                    GPIO_SetBits(PORT_LED, PIN_LED)
+#define LED_OFF                   GPIO_ResetBits(PORT_LED, PIN_LED)
+#define LED_TOGGLE                (PORT_LED->ODR ^= PIN_LED)
+
+static void GPIO_Basic_Configuration(void)
 {
-  while(Cnt--);
+
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    /* ä½¿èƒ½AHBæ—¶é’Ÿ */
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB | 
+                        RCC_AHBPeriph_GPIOC | RCC_AHBPeriph_GPIOD | 
+                        RCC_AHBPeriph_GPIOE | RCC_AHBPeriph_GPIOF, ENABLE);
+
+    //å¿…é¡»å…ˆä½¿èƒ½æ—¶é’Ÿå†åˆå§‹åŒ–IOå£
+    GPIO_InitStructure.GPIO_Pin = PIN_LED;                             //LEDå¼•è„š
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;                      //è¾“å‡ºæ¨¡å¼
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;                  //é«˜é€Ÿè¾“å‡º
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;                     //æŽ¨å®Œè¾“å‡º
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;                   //æ— ä¸Šä¸‹æ‹‰(æµ®ç©º)
+    GPIO_Init(PORT_LED, &GPIO_InitStructure);
+
+    
 }
 
 /************************************************
-º¯ÊýÃû³Æ £º System_Initializes
-¹¦    ÄÜ £º ÏµÍ³³õÊ¼»¯
-²Î    Êý £º ÎÞ
-·µ »Ø Öµ £º ÎÞ
-×÷    Õß £º strongerHuang
-*************************************************/
-void System_Initializes(void)
-{
-  BSP_Initializes();
-}
-
-/************************************************
-º¯ÊýÃû³Æ £º main
-¹¦    ÄÜ £º Ö÷º¯ÊýÈë¿Ú
-²Î    Êý £º ÎÞ
-·µ »Ø Öµ £º int
-×÷    Õß £º strongerHuang
+å‡½æ•°åç§° ï¼š main
+åŠŸ    èƒ½ ï¼š ä¸»å‡½æ•°å…¥å£
+å‚    æ•° ï¼š æ— 
+è¿” å›ž å€¼ ï¼š 0
+ä½œ    è€… ï¼š redScarf
 *************************************************/
 int main(void)
 {
-  System_Initializes();
-
-  while(1)
-  {
-    LED_ON;                                  //LED±ä»¯
-    SoftwareDelay(0x3D0000);                     //Èí¼þÑÓÊ±
-  }
+    char b = '1';
+    GPIO_Basic_Configuration();
+    init();
+    
+    while(1)
+    {
+        LED_ON;                                  //LEDå˜åŒ–
+        USART1->TDR = b;
+        delay(1000);
+        b = USART1->RDR;
+        LED_OFF;
+        delay(1000);
+    }
 }
 
 

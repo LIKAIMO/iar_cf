@@ -2,7 +2,9 @@
 #define _FC_INIT_H
 
 #include <stdint.h>
-#include "system_stm32f30x.h"
+#include "stm32f30x.h"
+#include "gpio.h"
+#include "system.h"
 
 typedef enum {
     SYSTEM_STATE_INITIALISING   = 0,
@@ -16,6 +18,8 @@ typedef enum {
 extern uint8_t systemState;
 
 void init(void);
-
+void checkForBootLoaderRequest(void);
+static void UART1_init(u32 bound);
+static void mySystemInit(void);
 
 #endif

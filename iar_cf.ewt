@@ -2319,17 +2319,20 @@
             <name>$PROJ_DIR$\APP\fc\fc_init.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\APP\drivers\gpio_stm32f30x.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\APP\main.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\APP\stm32f30x_it.c</name>
         </file>
+        <file>
+            <name>$PROJ_DIR$\APP\drivers\system.c</name>
+        </file>
     </group>
     <group>
         <name>BSP</name>
-        <file>
-            <name>$PROJ_DIR$\BSP\bsp.c</name>
-        </file>
     </group>
     <group>
         <name>CMSIS</name>

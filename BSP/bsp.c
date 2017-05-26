@@ -1,63 +1,63 @@
 /**
   ********************************  STM32F3xx  *********************************
-  * @ÎÄ¼şÃû     £º bsp.c
-  * @×÷Õß       £º redScarf
-  * @¿â°æ±¾     £º V1.2.3
-  * @ÎÄ¼ş°æ±¾   £º V1.0.0
-  * @ÈÕÆÚ       £º 2017Äê5ÔÂ25ÈÕ
-  * @ÕªÒª       £º BSP°å¼¶Ö§³Ö°üÔ´ÎÄ¼ş
+  * @æ–‡ä»¶å     ï¼š bsp.c
+  * @ä½œè€…       ï¼š redScarf
+  * @åº“ç‰ˆæœ¬     ï¼š V1.2.3
+  * @æ–‡ä»¶ç‰ˆæœ¬   ï¼š V1.0.0
+  * @æ—¥æœŸ       ï¼š 2017å¹´5æœˆ25æ—¥
+  * @æ‘˜è¦       ï¼š BSPæ¿çº§æ”¯æŒåŒ…æºæ–‡ä»¶
   ******************************************************************************/
 /*----------------------------------------------------------------------------
-  ¸üĞÂÈÕÖ¾:
-  2017-5-25 V1.0.0:³õÊ¼°æ±¾
+  æ›´æ–°æ—¥å¿—:
+  2017-5-25 V1.0.0:åˆå§‹ç‰ˆæœ¬
   ----------------------------------------------------------------------------*/
-/* °üº¬µÄÍ·ÎÄ¼ş --------------------------------------------------------------*/
+/* åŒ…å«çš„å¤´æ–‡ä»¶ --------------------------------------------------------------*/
 #include "bsp.h"
 
 
 /************************************************
-º¯ÊıÃû³Æ £º RCC_Configuration
-¹¦    ÄÜ £º Ê±ÖÓÅäÖÃ
-²Î    Êı £º ÎŞ
-·µ »Ø Öµ £º ÎŞ
-×÷    Õß £º strongerHuang
+å‡½æ•°åç§° ï¼š RCC_Configuration
+åŠŸ    èƒ½ ï¼š æ—¶é’Ÿé…ç½®
+å‚    æ•° ï¼š æ— 
+è¿” å› å€¼ ï¼š æ— 
+ä½œ    è€… ï¼š strongerHuang
 *************************************************/
 void RCC_Configuration(void)
 {
-  /* Ê¹ÄÜAHBÊ±ÖÓ */
+  /* ä½¿èƒ½AHBæ—¶é’Ÿ */
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB | 
                         RCC_AHBPeriph_GPIOC | RCC_AHBPeriph_GPIOD | 
                         RCC_AHBPeriph_GPIOE | RCC_AHBPeriph_GPIOF, ENABLE);
 
 #if 0
-  /* Ê¹ÄÜAPB2Ê±ÖÓ */
+  /* ä½¿èƒ½APB2æ—¶é’Ÿ */
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 
-  /* Ê¹ÄÜAPB1Ê±ÖÓ */
+  /* ä½¿èƒ½APB1æ—¶é’Ÿ */
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, ENABLE);
 #endif
 }
 
 /************************************************
-º¯ÊıÃû³Æ £º GPIO_Basic_Configuration
-¹¦    ÄÜ £º »ù±¾ÊäÈëÊä³öÒı½ÅÅäÖÃ
-²Î    Êı £º ÎŞ
-·µ »Ø Öµ £º ÎŞ
-×÷    Õß £º strongerHuang
+å‡½æ•°åç§° ï¼š GPIO_Basic_Configuration
+åŠŸ    èƒ½ ï¼š åŸºæœ¬è¾“å…¥è¾“å‡ºå¼•è„šé…ç½®
+å‚    æ•° ï¼š æ— 
+è¿” å› å€¼ ï¼š æ— 
+ä½œ    è€… ï¼š strongerHuang
 *************************************************/
 void GPIO_Basic_Configuration(void)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
 
-  GPIO_InitStructure.GPIO_Pin = PIN_LED;                             //LEDÒı½Å
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;                      //Êä³öÄ£Ê½
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;                  //¸ßËÙÊä³ö
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;                     //ÍÆÍêÊä³ö
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;                   //ÎŞÉÏÏÂÀ­(¸¡¿Õ)
+  GPIO_InitStructure.GPIO_Pin = PIN_LED;                             //LEDå¼•è„š
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;                      //è¾“å‡ºæ¨¡å¼
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;                  //é«˜é€Ÿè¾“å‡º
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;                     //æ¨å®Œè¾“å‡º
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;                   //æ— ä¸Šä¸‹æ‹‰(æµ®ç©º)
   GPIO_Init(PORT_LED, &GPIO_InitStructure);
 
 #if 0
-  /* MCOÊ±ÖÓÅäÖÃ */
+  /* MCOæ—¶é’Ÿé…ç½® */
   GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_3;
   GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -76,16 +76,16 @@ void GPIO_Basic_Configuration(void)
 }
 
 /************************************************
-º¯ÊıÃû³Æ £º BSP_Initializes
-¹¦    ÄÜ £º µ×²ã³õÊ¼»¯
-²Î    Êı £º ÎŞ
-·µ »Ø Öµ £º ÎŞ
-×÷    Õß £º strongerHuang
+å‡½æ•°åç§° ï¼š BSP_Initializes
+åŠŸ    èƒ½ ï¼š åº•å±‚åˆå§‹åŒ–
+å‚    æ•° ï¼š æ— 
+è¿” å› å€¼ ï¼š æ— 
+ä½œ    è€… ï¼š strongerHuang
 *************************************************/
 void BSP_Initializes(void)
 {
-  RCC_Configuration();                                               //Ê±ÖÓÅäÖÃ
-  GPIO_Basic_Configuration();                                        //IOÅäÖÃ
+  RCC_Configuration();                                               //æ—¶é’Ÿé…ç½®
+  GPIO_Basic_Configuration();                                        //IOé…ç½®
 }
 
 
